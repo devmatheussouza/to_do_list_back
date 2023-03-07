@@ -1,16 +1,21 @@
 import express from "express";
-  import bodyParser from "body-parser";
-  const app = express();
-  const port = process.env.PORT ? Number(process.env.PORT) : 4000;
+import bodyParser from "body-parser";
+import { createList, getLists } from "./controllers/ListController";
 
-  app.use(express.json());
-  app.use(bodyParser.urlencoded({ extended: false }));
+const app = express();
+const port = process.env.PORT ? Number(process.env.PORT) : 4000;
 
-  app.get("/", (_, res) => {
-    res.send("Script created by Matheus Souza.");
-  });
+app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
-  app.listen(port, () => {
+app.get("/", (_, res) => {
+  res.send("To do list App!");
+});
+
+app.get("/lists", getLists);
+app.post("/lists", createList);
+
+app.listen(port, () => {
   console.log(`App running at http://localhost:${port}`);
-  });
-  
+});

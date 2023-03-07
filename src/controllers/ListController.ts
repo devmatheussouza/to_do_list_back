@@ -1,8 +1,13 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
-import { z } from "zod";
+import { any, array, z } from "zod";
+import { error } from "console";
 
 const prisma = new PrismaClient();
+
+const listSchema = z.object({
+  name: z.string(),
+});
 
 // Get all lists
 export const getLists = async (_: Request, res: Response) => {
@@ -17,10 +22,6 @@ export const getLists = async (_: Request, res: Response) => {
 // Create new List
 export const createList = async (req: Request, res: Response) => {
   try {
-    const listSchema = z.object({
-      name: z.string(),
-    });
-
     const { name } = listSchema.parse(req.body);
     const list = await prisma.list.create({
       data: {
@@ -40,7 +41,7 @@ export const createList = async (req: Request, res: Response) => {
 export const updateListName = async (req: Request, res: Response) => {
   try {
     const listId = Number(req.params.listId);
-    const { name } = req.body;
+    const { name } = listSchema.parse(req.body);
     const updatedList = await prisma.list.update({
       where: {
         id: listId,
@@ -55,5 +56,30 @@ export const updateListName = async (req: Request, res: Response) => {
     res
       .status(400)
       .json({ message: "Unable to update list name.", error: error.message });
+  }
+};
+
+// Delete List by Id
+export const deleteListById = async (req: Request, res: Response) => {
+  try {
+    const listId = Number(req.params.listId);
+
+    await prisma.list.findUniqueOrThrow({
+      where: {
+        id: listId,
+      },
+    });
+
+    await prisma.list.delete({
+      where: {
+        id: listId,
+      },
+    });
+
+    res.status(200).json({ message: "List deleted." });
+  } catch (error) {
+    res
+      .status(400)
+      .json({ message: "Unable to delete this list.", error: error.message });
   }
 };

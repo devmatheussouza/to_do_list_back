@@ -2,6 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import {
   createList,
+  deleteListById,
   getLists,
   updateListName,
 } from "./controllers/ListController";
@@ -20,6 +21,7 @@ app.get("/", (_, res) => {
 app.get("/lists", getLists);
 app.post("/lists", createList);
 app.put("/lists/:listId", updateListName);
+app.delete("/lists/:listId", deleteListById);
 
 app.listen(port, () => {
   console.log(`App running at http://localhost:${port}`);

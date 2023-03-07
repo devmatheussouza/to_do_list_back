@@ -65,3 +65,39 @@ export const createToDo = async (req: Request, res: Response) => {
     res.status(400).json({ error: error.message });
   }
 };
+
+// Update To Do
+export const updateToDo = async (req: Request, res: Response) => {
+  try {
+    const updateToDoSchema = z.object({
+      toDoId: z.number().int(),
+      newTitle: z.string(),
+      listName: z.string(),
+    });
+
+    const { toDoId, newTitle, listName } = updateToDoSchema.parse(req.body);
+
+    const list = await prisma.list.update({
+      where: {
+        name: listName,
+      },
+
+      data: {
+        todos: {
+          update: {
+            where: {
+              id: toDoId,
+            },
+            data: {
+              title: newTitle,
+            },
+          },
+        },
+      },
+    });
+
+    res.status(200).json({ message: "To do title updated." });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};

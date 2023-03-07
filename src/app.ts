@@ -1,16 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser";
-import {
-  createList,
-  deleteListById,
-  getLists,
-  updateListName,
-} from "./controllers/ListController";
-import {
-  createToDo,
-  getToDos,
-  getToDosByListId,
-} from "./controllers/ToDoController";
+import * as ListController from "./controllers/ListController";
+import * as ToDoController from "./controllers/ToDoController";
 
 const app = express();
 const port = process.env.PORT ? Number(process.env.PORT) : 4000;
@@ -24,15 +15,16 @@ app.get("/", (_, res) => {
 });
 
 // List endpoints
-app.get("/lists", getLists);
-app.post("/lists", createList);
-app.put("/lists/:listId", updateListName);
-app.delete("/lists/:listId", deleteListById);
+app.get("/lists", ListController.getLists);
+app.post("/lists", ListController.createList);
+app.put("/lists/:listId", ListController.updateListName);
+app.delete("/lists/:listId", ListController.deleteListById);
 
 // To Do endpoints
-app.get("/todos", getToDos);
-app.get("/todos/:listId", getToDosByListId);
-app.post("/todos", createToDo);
+app.get("/todos", ToDoController.getToDos);
+app.get("/todos/:listId", ToDoController.getToDosByListId);
+app.post("/todos", ToDoController.createToDo);
+app.put("/todos", ToDoController.updateToDo);
 
 app.listen(port, () => {
   console.log(`App running at http://localhost:${port}`);

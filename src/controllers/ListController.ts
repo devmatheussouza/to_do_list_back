@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
-import { any, array, z } from "zod";
-import { error } from "console";
+import { z } from "zod";
 
 const prisma = new PrismaClient();
 
@@ -12,7 +11,11 @@ const listSchema = z.object({
 // Get all lists
 export const getLists = async (_: Request, res: Response) => {
   try {
-    const lists = await prisma.list.findMany();
+    const lists = await prisma.list.findMany({
+      include: {
+        todos: true,
+      },
+    });
     res.status(200).json(lists);
   } catch (error) {
     res.status(500).json({ message: "Internal server error!" });

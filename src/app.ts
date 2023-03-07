@@ -1,6 +1,10 @@
 import express from "express";
 import bodyParser from "body-parser";
-import { createList, getLists } from "./controllers/ListController";
+import {
+  createList,
+  getLists,
+  updateListName,
+} from "./controllers/ListController";
 
 const app = express();
 const port = process.env.PORT ? Number(process.env.PORT) : 4000;
@@ -15,6 +19,7 @@ app.get("/", (_, res) => {
 
 app.get("/lists", getLists);
 app.post("/lists", createList);
+app.put("/lists/:listId", updateListName);
 
 app.listen(port, () => {
   console.log(`App running at http://localhost:${port}`);

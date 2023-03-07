@@ -9,3 +9,23 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model List{
+  id Int @id @default(autoincrement())
+  name String @unique
+  todos ToDo[]
+  created_at DateTime @default(now())
+
+  @@map("list")
+}
+
+model ToDo{
+  id Int @id @default(autoincrement())
+  title String
+  created_at DateTime @default(now())
+
+  list List @relation(fields: [listId], references: [id])
+  listId Int
+
+  @@map("to_do")
+}

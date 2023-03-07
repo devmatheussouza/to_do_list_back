@@ -3,13 +3,16 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": "19"
+  },
   "scripts": {
     "build": "tsup ./src",
     "start": "node ./dist/app.js",
     "dev": "npm run build && npm run start"
   },
   "keywords": [],
-  "author": "",
+  "author": "Matheus Souza",
   "license": "ISC",
   "dependencies": {
     "@prisma/client": "^4.11.0",

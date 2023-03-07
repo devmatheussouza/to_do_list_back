@@ -22,9 +22,10 @@ app.delete("/lists/:listId", ListController.deleteListById);
 
 // To Do endpoints
 app.get("/todos", ToDoController.getToDos);
-app.get("/todos/:listId", ToDoController.getToDosByListId);
+app.get("/todos/:listId", ToDoController.getToDosByListName);
 app.post("/todos", ToDoController.createToDo);
 app.put("/todos", ToDoController.updateToDo);
+app.delete("/todos", ToDoController.deleteToDo);
 
 app.listen(port, () => {
   console.log(`App running at http://localhost:${port}`);

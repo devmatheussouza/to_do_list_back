@@ -24,7 +24,7 @@ model ToDo{
   title String
   created_at DateTime @default(now())
 
-  list List @relation(fields: [listId], references: [id])
+  list List @relation(fields: [listId], references: [id], onDelete: Cascade)
   listId Int
 
   @@map("to_do")

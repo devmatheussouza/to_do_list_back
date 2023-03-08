@@ -4,7 +4,7 @@ import * as ListController from "./controllers/ListController";
 import * as ToDoController from "./controllers/ToDoController";
 
 const app = express();
-const port = process.env.PORT ? Number(process.env.PORT) : 4000;
+const port: any = process.env.PORT;
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));

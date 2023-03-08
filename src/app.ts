@@ -27,6 +27,6 @@ app.post("/todos", ToDoController.createToDo);
 app.put("/todos", ToDoController.updateToDo);
 app.delete("/todos", ToDoController.deleteToDo);
 
-app.listen(port, () => {
+app.listen(port, "0.0.0.0", () => {
   console.log(`App running at http://localhost:${port}`);
 });

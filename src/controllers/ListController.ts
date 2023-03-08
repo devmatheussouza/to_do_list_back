@@ -43,7 +43,7 @@ export const createList = async (req: Request, res: Response) => {
 // Update List name
 export const updateListName = async (req: Request, res: Response) => {
   try {
-    const listId = Number(req.params.listId);
+    const listId = req.params.listId;
     const { name } = listSchema.parse(req.body);
     const updatedList = await prisma.list.update({
       where: {
@@ -65,7 +65,7 @@ export const updateListName = async (req: Request, res: Response) => {
 // Delete List by Id
 export const deleteListById = async (req: Request, res: Response) => {
   try {
-    const listId = Number(req.params.listId);
+    const listId = req.params.listId;
 
     await prisma.list.findUniqueOrThrow({
       where: {

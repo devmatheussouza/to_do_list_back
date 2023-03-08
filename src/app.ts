@@ -1,10 +1,14 @@
 import express from "express";
 import bodyParser from "body-parser";
+import dotenv from "dotenv";
 import * as ListController from "./controllers/ListController";
 import * as ToDoController from "./controllers/ToDoController";
+import { ObjectId } from "bson";
 
 const app = express();
 const port: any = process.env.PORT;
+const id = new ObjectId();
+dotenv.config();
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -22,7 +26,7 @@ app.delete("/lists/:listId", ListController.deleteListById);
 
 // To Do endpoints
 app.get("/todos", ToDoController.getToDos);
-app.get("/todos/:listId", ToDoController.getToDosByListName);
+app.get("/todosById", ToDoController.getToDosByListId);
 app.post("/todos", ToDoController.createToDo);
 app.put("/todos", ToDoController.updateToDo);
 app.delete("/todos", ToDoController.deleteToDo);

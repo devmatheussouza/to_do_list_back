@@ -29,12 +29,16 @@ export const getToDos = async (_: Request, res: Response) => {
   }
 };
 
-// Get all To Do by List id
-export const getToDosByListName = async (req: Request, res: Response) => {
+// Get all To Do by List Id
+export const getToDosByListId = async (req: Request, res: Response) => {
   try {
-    const { listName } = req.body;
+    const { listId } = req.body;
 
-    const list = await verifyListExistence(listName);
+    const list = await prisma.list.findUniqueOrThrow({
+      where: {
+        id: listId,
+      },
+    });
 
     const toDos = await prisma.toDo.findMany({
       where: {
@@ -72,7 +76,7 @@ export const createToDo = async (req: Request, res: Response) => {
 export const updateToDo = async (req: Request, res: Response) => {
   try {
     const updateToDoSchema = z.object({
-      toDoId: z.number().int(),
+      toDoId: z.string(),
       newTitle: z.string(),
       listName: z.string(),
     });
@@ -110,7 +114,7 @@ export const updateToDo = async (req: Request, res: Response) => {
 export const deleteToDo = async (req: Request, res: Response) => {
   try {
     const deleteToDoSchema = z.object({
-      toDoId: z.number().int(),
+      toDoId: z.string(),
     });
 
     const { toDoId } = deleteToDoSchema.parse(req.body);
